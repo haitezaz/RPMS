@@ -1,19 +1,29 @@
 package backend;
 
-public class NotificationService {
-    public static void sendNotificationToDoctor(int patient_id ,String patientAddress, String patientName ,  String DoctorEmail ) {
-        String Subject = "Notification for a Patient's Critical Vitals";
-        String Message = "Your patient with Patient ID = "+patient_id+ "with Name "+patientName+ " and Address: "+ patientAddress+ " has Critical Vitals visit him";
-        EmailNotification.sendEmail(DoctorEmail, Subject, Message);
+import java.util.ArrayList;
+import java.util.List;
+
+public class NotificationService
+{
+
+    private final List<Notifiable> channels = new ArrayList<>();
+
+    public void addChannel(Notifiable channel)
+    {
+        channels.add(channel);
     }
-    public static void sendNotificationToHospital(String patientAddress, String patientName,  String HospitalEmail ) {
-        String Subject = "Notification for a Patient's Critical Vitals near your hospital";
-        String Message = "A patient with Name "+patientName+ " and Address: "+ patientAddress +" has Critical Vitals visit him";
-        EmailNotification.sendEmail(HospitalEmail, Subject, Message);
-    }
-    public static void sendNotificationToEmergencyContact(String patientAddress, String patientName,  String ContactEmail ) {
-        String Subject = "Notification for a Patient's Critical Vitals";
-        String Message = "A patient with Name "+patientName+ " and Address: "+ patientAddress +" has Critical Vitals visit him";
-        EmailNotification.sendEmail(ContactEmail, Subject, Message);
+
+    public void send(String recipient, String message, String subject) {
+        for (Notifiable channel : channels)
+        {
+            try
+            {
+                channel.sendNotification(recipient, message, subject);
+            }
+            catch (NotificationException e)
+            {
+                System.err.println("Notification failure: " + e.getMessage());
+            }
+        }
     }
 }
