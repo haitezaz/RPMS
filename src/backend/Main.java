@@ -11,8 +11,8 @@ public class Main {
         String doctorEmail = "doctor@example.com";
         String hospitalEmail = "hospital@example.com";
         String emergencyEmail = "emergency@example.com";
-        String patientName = "Ali Khan";
-        String patientAddress = "123 Main Street";
+        String patientName = "abc";
+        String patientAddress = "NUST";
 
         // Insert Vitals
         Vitals vitals = new Vitals(patientId, 78, 120, 80, 98.5, 36.7);
